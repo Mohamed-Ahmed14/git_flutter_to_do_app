@@ -13,8 +13,13 @@ class TabBarCustom extends StatelessWidget {
           children: [
             TabBar(
               tabs: tabs,
+              labelStyle: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold
+              ),
               onTap: (value){},
-              indicatorSize: TabBarIndicatorSize.tab,
+              indicatorSize: TabBarIndicatorSize.label,
+
               indicatorColor: Colors.blue,
               labelColor: Colors.blue,
               unselectedLabelColor: Colors.grey,

@@ -195,6 +195,33 @@ class OpenDialog extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
+              if(task != null)
+                DropdownButtonFormField(
+                value:'new',
+                items: [
+                  DropdownMenuItem(child: Text("New"),
+                  value: 'new'),
+                  DropdownMenuItem(child: Text("Doing"),
+                      value: 'doing'),
+                  DropdownMenuItem(child: Text("Compeleted"),
+                      value: 'compeleted'),
+                  DropdownMenuItem(child: Text("Outdated"),
+                      value: 'outdated'),
+                ],
+                onChanged: (value) {
+                  if(value != null)
+                      cubit.changeSatusOfTask(value);
+              },
+                validator: (value){
+                  if(value == null)
+                    return "please select status of task";
+                  return null;
+                },
+              ),
+
               // TextFormField(
               //   controller: cubit.timeController,
               //   keyboardType: TextInputType.none,
@@ -275,8 +302,6 @@ class OpenDialog extends StatelessWidget {
                       onPressed: () {
                         cubit.deleteTask(id: task!.id ?? 0).then((value){
                           cubit.reset();
-                          cubit.tasksList.clear();
-                          cubit.getAllTasks();
                           Navigator.pop(context);
                         });
                       },
@@ -328,8 +353,8 @@ class OpenDialog extends StatelessWidget {
         }
         if(state is EditTasksSuccessState)
         {
-          TaskCubit.get(context).tasksList.clear();
-          TaskCubit.get(context).getAllTasks();
+          //TaskCubit.get(context).tasksList.clear();
+          //TaskCubit.get(context).getAllTasks();
 
         }
       },

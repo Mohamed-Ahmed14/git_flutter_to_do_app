@@ -26,5 +26,7 @@ class EditTasksErrorState extends TaskState{}
 
 class ResetControllersSuccessState extends TaskState{}
 
+class ChangeTaskStatus extends TaskState{}
+
 
 

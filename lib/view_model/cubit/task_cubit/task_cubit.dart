@@ -24,6 +24,7 @@ class TaskCubit extends Cubit<TaskState>
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  String status = 'new';
   //TextEditingController timeController = TextEditingController();
 
   List<Task> tasksList=[];
@@ -46,6 +47,12 @@ class TaskCubit extends Cubit<TaskState>
   //   tasksList[index].type = type;
   //   emit(ChangeTaskTypeState());
   // }
+
+  void changeSatusOfTask(String status)
+  {
+      this.status=status;
+      emit(ChangeTaskStatus());
+  }
   
   Future<void> getAllTasks()async{
     emit(GetAllTasksLoadingState());
@@ -115,6 +122,14 @@ class TaskCubit extends Cubit<TaskState>
     withToken: true,
     ).then((value){
       print(value.data);
+      for(var i in tasksList)
+      {
+        if(i.id == id)
+        {
+          tasksList.remove(i);
+          break;
+        }
+      }
       Fluttertoast.showToast(msg: "Task Deleted Successfully",
           backgroundColor: Colors.red,
           textColor: Colors.white,
@@ -124,6 +139,7 @@ class TaskCubit extends Cubit<TaskState>
       emit(DeleteTasksSuccessState());
     }).catchError((error){
       print(error.response.data);
+
       if(error is DioException)
        Fluttertoast.showToast(msg:error.response?.data["message"].toString()?? "Error on Deleted Successfully",
           backgroundColor: Colors.red,
@@ -140,7 +156,9 @@ class TaskCubit extends Cubit<TaskState>
   }
 
   Future<void> editTask({required int id}) async{
+
     emit(EditTasksLoadingState());
+
     await DioHelper.post(endPoint: "${EndPoints.tasks}/${id}",
     withToken: true,
       body:{
@@ -149,10 +167,21 @@ class TaskCubit extends Cubit<TaskState>
         "description":descriptionController.text,
         "start_date":startDateController.text,
         "end_date":endDateController.text,
-        "status":"new",
+        "status": status,
       }
     ).then((value) {
       print(value.data);
+      for(var i in tasksList)
+        {
+          if(i.id == id)
+            {
+              i.title=titleController.text;
+              i.description=descriptionController.text;
+              i.startDate=startDateController.text;
+              i.endDate=endDateController.text;
+              i.status=status;
+            }
+        }
       Fluttertoast.showToast(msg: "Task Editing Successfully",
           backgroundColor: Colors.blue,
           textColor: Colors.white,

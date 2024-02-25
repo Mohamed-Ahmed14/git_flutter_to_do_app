@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:note_app_v2/view/all_task.dart';
-import 'package:note_app_v2/view/archived_task.dart';
+import 'package:note_app_v2/view/compeleted_task.dart';
 import 'package:note_app_v2/view/component/tab_bar.dart';
-import 'package:note_app_v2/view/done_task.dart';
+import 'package:note_app_v2/view/doing_task.dart';
 import 'package:note_app_v2/view_model/cubit/task_cubit/task_cubit.dart';
 import 'package:note_app_v2/view_model/cubit/task_cubit/task_state.dart';
 
 import 'component/widget/show_dialog.dart';
+import 'outdated_task.dart';
 
 class TaskScreen extends StatelessWidget {
   const TaskScreen({super.key});
@@ -21,20 +22,24 @@ class TaskScreen extends StatelessWidget {
         child: TabBarCustom(
             tabs: [
               Tab(
-                text:"All Tasks" ,
+                text:"All Tasks",
               ),
               Tab(
-                  text:"Done"
+                  text:"Doing"
               ),
               Tab(
-                  text:"Archived"
+                  text:"Compeleted"
+              ),
+              Tab(
+                  text:"Outdated"
               ),
 
             ],
             children:[
               AllTask(),
-              DoneTask(),
-              ArchivedTask(),
+              DoingTask(),
+              CompeletedTask(),
+              OutDatedTask(),
             ]),
 
 
